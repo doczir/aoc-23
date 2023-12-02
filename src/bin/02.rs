@@ -24,11 +24,7 @@ impl Game {
             }
         }
 
-        max_pulls
-            .into_iter()
-            .map(|(_, count)| count)
-            .reduce(|a, b| a * b)
-            .unwrap_or(0)
+        max_pulls.into_values().reduce(|a, b| a * b).unwrap_or(0)
     }
 }
 
@@ -95,7 +91,7 @@ pub fn part_one(input: &str) -> Option<u32> {
     let games: Vec<_> = input
         .lines()
         .filter(|line| !line.trim().is_empty())
-        .map(|line| parse_line(line))
+        .map(parse_line)
         .collect();
 
     let available_cubes: [(_, u32); 3] = [("red", 12), ("green", 13), ("blue", 14)];
@@ -124,7 +120,7 @@ pub fn part_two(input: &str) -> Option<u32> {
     let games: Vec<_> = input
         .lines()
         .filter(|line| !line.trim().is_empty())
-        .map(|line| parse_line(line))
+        .map(parse_line)
         .collect();
 
     let result = games.iter().map(|game| game.power()).sum();

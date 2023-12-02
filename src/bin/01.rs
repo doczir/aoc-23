@@ -1,7 +1,7 @@
 advent_of_code::solution!(1);
 
 pub fn part_one(input: &str) -> Option<u32> {
-    let result = input.lines().map(|line| get_num(line)).sum();
+    let result = input.lines().map(get_num).sum();
     Some(result)
 }
 
@@ -10,14 +10,14 @@ fn get_num(line: &str) -> u32 {
     let mut last: u32 = 0;
 
     for c in line.chars() {
-        if c.is_digit(10) {
+        if c.is_ascii_digit() {
             first = c.to_digit(10).unwrap();
             break;
         }
     }
 
     for c in line.chars().rev() {
-        if c.is_digit(10) {
+        if c.is_ascii_digit() {
             last = c.to_digit(10).unwrap();
             break;
         }
@@ -29,13 +29,13 @@ fn get_num(line: &str) -> u32 {
 pub fn part_two(input: &str) -> Option<u32> {
     let result = input
         .lines()
-        .map(|line| get_digits(line))
+        .map(get_digits)
         .map(|digits| digits.first().unwrap() * 10 + digits.last().unwrap())
         .sum();
     Some(result)
 }
 
-const NUMBERS: [(&'static str, u32, usize); 9] = [
+const NUMBERS: [(&str, u32, usize); 9] = [
     ("one", 1, 1),
     ("two", 2, 1),
     ("six", 6, 1),
@@ -53,7 +53,7 @@ fn get_digits(line: &str) -> Vec<u32> {
     let mut digits = Vec::new();
     let mut i = 0;
     while i < chars.len() {
-        if chars[i].is_digit(10) {
+        if chars[i].is_ascii_digit() {
             digits.push(chars[i].to_digit(10).unwrap());
             i += 1;
             continue;
